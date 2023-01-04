@@ -1,6 +1,6 @@
 package jp.room417.danger_kotlin_checkstyle_format
 
-data class CheckstyleError(
+internal data class CheckstyleError(
     val file: String,
     val line: Int,
     val column: Int,
@@ -13,7 +13,7 @@ data class CheckstyleError(
     }
 
     companion object {
-        internal fun from(checkstyle: Checkstyle) = checkstyle.files.flatMap { file ->
+        fun from(checkstyle: Checkstyle) = checkstyle.files.flatMap { file ->
             file.errors.map { error ->
                 CheckstyleError(
                     file = file.name,
