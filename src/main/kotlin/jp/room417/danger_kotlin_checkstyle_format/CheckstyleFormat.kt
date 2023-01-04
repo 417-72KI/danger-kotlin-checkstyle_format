@@ -9,8 +9,14 @@ import kotlin.io.path.notExists
 object CheckstyleFormat : DangerPlugin() {
     override val id: String = "danger-kotlin-checkstyle_format"
 
+    @Suppress("unused")
     fun report(vararg paths: Path, inlineMode: Boolean = true) {
         paths.forEach { report(it, inlineMode) }
+    }
+
+    @Suppress("unused")
+    fun report(paths: List<Path>, inlineMode: Boolean = true) {
+        report(paths = paths.toTypedArray(), inlineMode = inlineMode)
     }
 
     internal fun report(path: Path, inlineMode: Boolean = true) {
