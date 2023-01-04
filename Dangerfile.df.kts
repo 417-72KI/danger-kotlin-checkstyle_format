@@ -55,16 +55,16 @@ fun Path.forEachDirectoryEntryRecursive(glob: String, action: (Path) -> Unit) {
     when (val subdir = glob.split("/").first()) {
         "*" -> forEachDirectoryEntry(glob = "*") {
             if (it.isDirectory())
-                it.forEachDirectoryEntryRecursive(glob.removePrefix("${subdir}/"), action)
+                it.forEachDirectoryEntryRecursive(glob.removePrefix("$subdir/"), action)
         }
         "**" -> {
-            forEachDirectoryEntryRecursive(glob.removePrefix("${subdir}/"), action)
+            forEachDirectoryEntryRecursive(glob.removePrefix("$subdir/"), action)
             forEachDirectoryEntry(glob = "**") {
                 if (it.isDirectory())
-                    it.forEachDirectoryEntryRecursive(glob.removePrefix("${subdir}/"), action)
+                    it.forEachDirectoryEntryRecursive(glob.removePrefix("$subdir/"), action)
             }
         }
         else -> resolve(subdir)
-            .forEachDirectoryEntryRecursive(glob.removePrefix("${subdir}/"), action)
+            .forEachDirectoryEntryRecursive(glob.removePrefix("$subdir/"), action)
     }
 }
