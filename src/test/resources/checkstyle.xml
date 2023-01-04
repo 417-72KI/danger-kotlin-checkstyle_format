@@ -11,5 +11,5 @@
         <error column="38" line="86" message="Redundant curly braces" severity="error" source="string-template" />
         <error column="1" line="150" message="Unexpected indentation (24) (should be 20)" severity="error" source="indent" />
     </file>
-    <file name="/path/to/C.kt"></file>
+    <file name="/path/to/C.kt" />
 </checkstyle>

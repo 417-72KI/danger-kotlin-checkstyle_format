@@ -9,6 +9,8 @@ import kotlin.io.path.notExists
 object CheckstyleFormat : DangerPlugin() {
     override val id: String = "danger-kotlin-checkstyle_format"
 
+    var basePath: Path? = null
+
     @Suppress("unused")
     fun report(vararg paths: Path, inlineMode: Boolean = true) {
         paths.forEach { report(it, inlineMode) }
@@ -25,7 +27,8 @@ object CheckstyleFormat : DangerPlugin() {
         }
 
         val checkstyle = parse(path)
-        val errors = CheckstyleError.from(checkstyle)
+        val errors = basePath?.let { CheckstyleError.from(it, checkstyle) }
+            ?: throw IllegalStateException("basePath is not set.")
         sendComment(errors, inlineMode)
     }
 
