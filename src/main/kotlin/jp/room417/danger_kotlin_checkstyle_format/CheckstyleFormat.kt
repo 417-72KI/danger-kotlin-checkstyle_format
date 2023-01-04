@@ -7,16 +7,37 @@ import kotlin.io.path.Path
 import kotlin.io.path.inputStream
 import kotlin.io.path.notExists
 
+/**
+ * [Danger-Kotlin](https://github.com/danger/kotlin) plugin for checkstyle formatted xml file.
+ */
 object CheckstyleFormat : DangerPlugin() {
     override val id: String = "danger-kotlin-checkstyle_format"
 
+    /**
+     * Base path of `name` attributes in `file` tag.
+     *
+     * If the attributes and where `Danger-Kotlin`'s working directory is different (e.g. Run `Danger-Kotlin` via Docker),
+     * You should modify this property.
+     */
     var basePath = Path(System.getProperty("user.dir"))
 
+    /**
+     * Convert checkstyle errors to `Danger-Kotlin` warnings / errors
+     *
+     * @param paths Checkstyle formatted XML file paths
+     * @param inlineMode If true, it makes comments as inline in Pull requests.
+     */
     @Suppress("unused")
     fun report(vararg paths: Path, inlineMode: Boolean = true) {
         paths.forEach { report(it, inlineMode) }
     }
 
+    /**
+     * Convert checkstyle errors to `Danger-Kotlin` warnings / errors
+     *
+     * @param paths Checkstyle formatted XML file paths
+     * @param inlineMode If true, it makes comments as inline in Pull requests.
+     */
     @Suppress("unused")
     fun report(paths: List<Path>, inlineMode: Boolean = true) {
         report(paths = paths.toTypedArray(), inlineMode = inlineMode)
