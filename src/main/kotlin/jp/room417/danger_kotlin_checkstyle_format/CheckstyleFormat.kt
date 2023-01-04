@@ -3,13 +3,14 @@ package jp.room417.danger_kotlin_checkstyle_format
 import com.fasterxml.jackson.dataformat.xml.XmlMapper
 import systems.danger.kotlin.sdk.DangerPlugin
 import java.nio.file.Path
+import kotlin.io.path.Path
 import kotlin.io.path.inputStream
 import kotlin.io.path.notExists
 
 object CheckstyleFormat : DangerPlugin() {
     override val id: String = "danger-kotlin-checkstyle_format"
 
-    var basePath: Path? = null
+    var basePath = Path(System.getProperty("user.dir"))
 
     @Suppress("unused")
     fun report(vararg paths: Path, inlineMode: Boolean = true) {
@@ -27,8 +28,7 @@ object CheckstyleFormat : DangerPlugin() {
         }
 
         val checkstyle = parse(path)
-        val errors = basePath?.let { CheckstyleError.from(it, checkstyle) }
-            ?: throw IllegalStateException("basePath is not set.")
+        val errors = CheckstyleError.from(basePath, checkstyle)
         sendComment(errors, inlineMode)
     }
 
