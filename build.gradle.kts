@@ -1,6 +1,7 @@
 plugins {
-    id("org.jetbrains.kotlin.jvm") version Dependencies.Version.kotlin
-    id("org.jetbrains.dokka") version Dependencies.Version.kotlin
+    id(Plugins.kotlin) version Plugins.Version.kotlin
+    id(Plugins.dokka) version Plugins.Version.dokka
+    id(Plugins.ktlint) version Plugins.Version.ktlint
     `java-library`
     `maven-publish`
 }
@@ -16,4 +17,15 @@ dependencies {
 
     testImplementation(TestDependencies.kotlinTest)
     testImplementation(TestDependencies.kotlinTestJunit)
+}
+
+configure<org.jlleitschuh.gradle.ktlint.KtlintExtension> {
+    arrayOf(
+        "import-ordering",
+        "no-wildcard-imports"
+    ).forEach(disabledRules::add)
+    reporters {
+        ignoreFailures.set(true)
+        reporter(org.jlleitschuh.gradle.ktlint.reporter.ReporterType.CHECKSTYLE)
+    }
 }

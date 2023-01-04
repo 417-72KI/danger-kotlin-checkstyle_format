@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<checkstyle version="8.0">
+    <file name="/path/to/A.kt">
+        <error column="20" line="88" message="Redundant curly braces" severity="error" source="string-template" />
+        <error column="1" line="145" message="Needless blank line(s)" severity="error" source="no-consecutive-blank-lines" />
+        <error column="1" line="153" message="Unexpected indentation (24) (should be 20)" severity="error" source="indent" />
+    </file>
+    <file name="/path/to/B.kt">
+        <error column="1" line="3" message="Needless blank line(s)" severity="error" source="no-consecutive-blank-lines" />
+        <error column="1" line="8" message="Needless blank line(s)" severity="error" source="no-consecutive-blank-lines" />
+        <error column="38" line="86" message="Redundant curly braces" severity="error" source="string-template" />
+        <error column="1" line="150" message="Unexpected indentation (24) (should be 20)" severity="error" source="indent" />
+    </file>
+    <file name="/path/to/C.kt"></file>
+</checkstyle>
