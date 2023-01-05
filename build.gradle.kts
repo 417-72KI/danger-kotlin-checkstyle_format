@@ -6,6 +6,7 @@ plugins {
     id(Plugins.ktlint) version Plugins.Version.ktlint
     `java-library`
     `maven-publish`
+    signing
     id(Plugins.gradleNexusPublishPlugin) version Plugins.Version.gradleNexusPublishPlugin
 }
 
@@ -57,6 +58,8 @@ publishing {
     publications {
         create<MavenPublication>("maven") {
             from(components["java"])
+            artifact(sourcesJar)
+            artifact(javadocJar)
         }
     }
 }
@@ -67,6 +70,15 @@ val properties = project.localProperties ?: Properties().apply {
     setProperty("sonatypeStagingProfileId", System.getenv("SONATYPE_STAGING_PROFILE_ID"))
     setProperty("signing.keyId", System.getenv("SIGNING_KEY_ID"))
     setProperty("signing.password", System.getenv("SIGNING_PASSWORD"))
+}
+
+signing {
+    useInMemoryPgpKeys(
+        properties.getProperty("signing.keyId"),
+        properties.getProperty("signing.key"),
+        properties.getProperty("signing.password")
+    )
+    sign(publishing.publications)
 }
 
 nexusPublishing {
