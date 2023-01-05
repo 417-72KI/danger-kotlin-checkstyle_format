@@ -99,11 +99,21 @@ publishing {
 }
 
 val properties = project.localProperties ?: Properties().apply {
-    setProperty("ossrhUsername", System.getenv("OSSRH_USERNAME"))
-    setProperty("ossrhPassword", System.getenv("OSSRH_PASSWORD"))
-    setProperty("sonatypeStagingProfileId", System.getenv("SONATYPE_STAGING_PROFILE_ID"))
-    setProperty("signing.keyId", System.getenv("SIGNING_KEY_ID"))
-    setProperty("signing.password", System.getenv("SIGNING_PASSWORD"))
+    System.getenv("OSSRH_USERNAME")?.let {
+        setProperty("ossrhUsername", it)
+    }
+    System.getenv("OSSRH_PASSWORD")?.let {
+        setProperty("ossrhPassword", it)
+    }
+    System.getenv("SONATYPE_STAGING_PROFILE_ID")?.let {
+        setProperty("sonatypeStagingProfileId", it)
+    }
+    System.getenv("SIGNING_KEY_ID")?.let {
+        setProperty("signing.keyId", it)
+    }
+    System.getenv("SIGNING_PASSWORD")?.let {
+        setProperty("signing.password", it)
+    }
 }
 
 signing {
