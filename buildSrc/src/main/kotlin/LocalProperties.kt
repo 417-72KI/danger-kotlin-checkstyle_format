@@ -27,3 +27,10 @@ fun getLocalProperties(dir: String) = getFile(dir, LOCAL_PROPERTIES_FILENAME)?.l
 
 val Project.localProperties
     get() = getLocalProperties(rootDir.absolutePath)
+
+fun Project.getProperties(filename: String) = getFile(rootDir.absolutePath, filename)?.let { file ->
+    Properties().apply {
+        file.inputStream()
+            .use { load(it) }
+    }
+}

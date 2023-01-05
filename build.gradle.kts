@@ -57,12 +57,9 @@ tasks.register("releaseTag") {
         if (versionList.contains(version))
             throw GradleException("`$version` already exists.")
 
-        println("set tag for `$version`")
+        println("Create release `$version`")
 
-        "git tag $version main".runCommand().exitCode.let {
-            if (it != 0) throw GradleException("invalid return code on `git tag`: $it")
-        }
-        "gh release create $version --generate-notes".runCommand().exitCode.let {
+        "gh release create $version --target main --generate-notes".runCommand().exitCode.let {
             if (it != 0) throw GradleException("invalid return code on `gh release create`: $it")
         }
     }
@@ -94,6 +91,33 @@ publishing {
             from(components["java"])
             artifact(sourcesJar)
             artifact(javadocJar)
+
+            project.getProperties("pom.properties")?.let { properties ->
+                pom {
+                    name.set(properties.getProperty("ARTIFACT_ID"))
+                    description.set(properties.getProperty("DESCRIPTION"))
+                    url.set(properties.getProperty("URL"))
+
+                    licenses {
+                        license {
+                            name.set(properties.getProperty("LICENSE_NAME"))
+                            url.set(properties.getProperty("LICENSE_URL"))
+                        }
+                    }
+                    developers {
+                        developer {
+                            id.set(properties.getProperty("DEVELOPER_ID"))
+                            name.set(properties.getProperty("DEVELOPER_NAME"))
+                            email.set(properties.getProperty("DEVELOPER_EMAIL"))
+                        }
+                    }
+                    scm {
+                        connection.set(properties.getProperty("SCM_CONNECTION"))
+                        developerConnection.set(properties.getProperty("SCM_DEVELOPER_CONNECTION"))
+                        url.set(properties.getProperty("SCM_URL"))
+                    }
+                }
+            }
         }
     }
 }
