@@ -111,6 +111,9 @@ val properties = project.localProperties ?: Properties().apply {
     System.getenv("SIGNING_KEY_ID")?.let {
         setProperty("signing.keyId", it)
     }
+    System.getenv("SIGNING_KEY")?.let {
+        setProperty("signing.key", it)
+    }
     System.getenv("SIGNING_PASSWORD")?.let {
         setProperty("signing.password", it)
     }
