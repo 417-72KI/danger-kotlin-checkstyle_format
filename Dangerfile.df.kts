@@ -1,7 +1,6 @@
 @file:Repository("https://repo.maven.apache.org/maven2/")
-@file:Repository("https://s01.oss.sonatype.org/content/repositories/snapshots/")
 @file:DependsOn("io.github.ackeecz:danger-kotlin-junit:0.1.0")
-@file:DependsOn("io.github.417-72ki:danger-kotlin-checkstyle_format:0.0.1-SNAPSHOT")
+@file:DependsOn("io.github.417-72ki:danger-kotlin-checkstyle_format:0.0.1")
 @file:OptIn(ExperimentalPathApi::class)
 
 import io.github.ackeecz.danger.junit.JUnitPlugin
@@ -47,6 +46,13 @@ danger(args) {
     }
 }
 
+/**
+ * Performs the given [action] on each entry in this directory
+ * recursively filtered by matching against the specified [glob] pattern.
+ *
+ * @param glob the globbing pattern. The syntax is specified by the [java.nio.file.FileSystem.getPathMatcher] method.
+ * @see Path.forEachDirectoryEntry
+ */
 @SinceKotlin("1.5")
 @Throws(IOException::class)
 fun Path.forEachDirectoryEntryRecursive(glob: String, action: (Path) -> Unit) {
