@@ -55,9 +55,9 @@ tasks.register("releaseTag") {
         }
         val versionList = "git tag".runCommand().output.split("\n")
         if (versionList.contains(version))
-            throw GradleException("`${version}` already exists.")
+            throw GradleException("`$version` already exists.")
 
-        println("set tag for `${version}`")
+        println("set tag for `$version`")
 
         "git tag $version main".runCommand().exitCode.let {
             if (it != 0) throw GradleException("invalid return code on `git tag`: $it")
