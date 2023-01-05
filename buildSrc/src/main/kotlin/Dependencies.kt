@@ -5,7 +5,7 @@ object Dependencies {
 
     object Version {
         val dangerKotlin by lazy { "1.2" }
-        val jacksonDataformatXml by lazy { "2.12.2" }
+        val jacksonDataformatXml by lazy { "2.14.1" }
         val kotlin by lazy { "1.7.20" }
     }
 }
