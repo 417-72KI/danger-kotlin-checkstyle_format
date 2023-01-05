@@ -11,7 +11,7 @@ Put
 
 ```kotlin
 @file:Repository("https://repo.maven.apache.org/maven2/")
-@file:DependsOn("io.github.417-72ki:danger-kotlin-checkstyle_format:0.0.1")
+@file:DependsOn("io.github.417-72ki:danger-kotlin-checkstyle_format:0.0.2")
 ```
 
 to the top of your `Dangerfile.df.kts`
