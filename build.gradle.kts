@@ -34,6 +34,12 @@ configure<org.jlleitschuh.gradle.ktlint.KtlintExtension> {
     }
 }
 
+tasks.register("printVersion") {
+    doLast {
+        println(createVersion(project))
+    }
+}
+
 // Publish
 val sourcesJar by tasks.creating(Jar::class) {
     archiveClassifier.set("sources")
