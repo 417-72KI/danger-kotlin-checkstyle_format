@@ -3,7 +3,7 @@
 ![publish](https://github.com/417-72KI/danger-kotlin-checkstyle_format/actions/workflows/publish.yml/badge.svg)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.417-72ki/danger-kotlin-checkstyle_format/badge.svg?style=plastic)](https://maven-badges.herokuapp.com/maven-central/io.github.417-72KI/danger-kotlin-checkstyle_format)
 
-Danger-Kotlin plugin for processing checkstyle formatted xml file.
+[Danger-Kotlin](https://github.com/danger/kotlin) plugin for processing checkstyle formatted xml file.
 
 ## Installation
 
