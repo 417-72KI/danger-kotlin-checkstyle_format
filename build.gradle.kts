@@ -40,6 +40,34 @@ tasks.register("printVersion") {
     }
 }
 
+tasks.register("releaseTag") {
+    doFirst {
+        if ("git symbolic-ref --short HEAD".runCommand().output != "main") {
+            throw GradleException("This task must be run in main branch")
+        }
+        "git pull --rebase --tags".runCommand()
+    }
+    doLast {
+        var version = createVersion(rootProject)
+            .replaceFirst("-SNAPSHOT", "")
+        if (!version.startsWith("v")) {
+            version = "v$version"
+        }
+        val versionList = "git tag".runCommand().output.split("\n")
+        if (versionList.contains(version))
+            throw GradleException("`$version` already exists.")
+
+        println("set tag for `$version`")
+
+        "git tag $version main".runCommand().exitCode.let {
+            if (it != 0) throw GradleException("invalid return code on `git tag`: $it")
+        }
+        "gh release create $version --generate-notes".runCommand().exitCode.let {
+            if (it != 0) throw GradleException("invalid return code on `gh release create`: $it")
+        }
+    }
+}
+
 // Publish
 val sourcesJar by tasks.creating(Jar::class) {
     archiveClassifier.set("sources")
@@ -71,11 +99,21 @@ publishing {
 }
 
 val properties = project.localProperties ?: Properties().apply {
-    setProperty("ossrhUsername", System.getenv("OSSRH_USERNAME"))
-    setProperty("ossrhPassword", System.getenv("OSSRH_PASSWORD"))
-    setProperty("sonatypeStagingProfileId", System.getenv("SONATYPE_STAGING_PROFILE_ID"))
-    setProperty("signing.keyId", System.getenv("SIGNING_KEY_ID"))
-    setProperty("signing.password", System.getenv("SIGNING_PASSWORD"))
+    System.getenv("OSSRH_USERNAME")?.let {
+        setProperty("ossrhUsername", it)
+    }
+    System.getenv("OSSRH_PASSWORD")?.let {
+        setProperty("ossrhPassword", it)
+    }
+    System.getenv("SONATYPE_STAGING_PROFILE_ID")?.let {
+        setProperty("sonatypeStagingProfileId", it)
+    }
+    System.getenv("SIGNING_KEY_ID")?.let {
+        setProperty("signing.keyId", it)
+    }
+    System.getenv("SIGNING_PASSWORD")?.let {
+        setProperty("signing.password", it)
+    }
 }
 
 signing {
