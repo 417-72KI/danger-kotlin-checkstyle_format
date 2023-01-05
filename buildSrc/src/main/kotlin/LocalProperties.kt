@@ -18,9 +18,10 @@ fun getFile(dir: String, filename: String): File? =
     File("$dir${File.separator}$filename")
         .let { if (it.exists()) it else null }
 
-fun getLocalProperties(dir: String) = getFile(dir, LOCAL_PROPERTIES_FILENAME)?.let {
+fun getLocalProperties(dir: String) = getFile(dir, LOCAL_PROPERTIES_FILENAME)?.let { file ->
     Properties().apply {
-        load(it.inputStream())
+        file.inputStream()
+            .use { load(it) }
     }
 }
 

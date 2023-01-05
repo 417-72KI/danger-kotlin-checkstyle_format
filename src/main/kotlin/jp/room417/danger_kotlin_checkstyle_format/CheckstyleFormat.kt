@@ -3,17 +3,41 @@ package jp.room417.danger_kotlin_checkstyle_format
 import com.fasterxml.jackson.dataformat.xml.XmlMapper
 import systems.danger.kotlin.sdk.DangerPlugin
 import java.nio.file.Path
+import kotlin.io.path.Path
 import kotlin.io.path.inputStream
 import kotlin.io.path.notExists
 
+/**
+ * [Danger-Kotlin](https://github.com/danger/kotlin) plugin for checkstyle formatted xml file.
+ */
 object CheckstyleFormat : DangerPlugin() {
     override val id: String = "danger-kotlin-checkstyle_format"
 
+    /**
+     * Base path of `name` attributes in `file` tag.
+     *
+     * If the attributes and where `Danger-Kotlin`'s working directory is different (e.g. Run `Danger-Kotlin` via Docker),
+     * You should modify this property.
+     */
+    var basePath = Path(System.getProperty("user.dir"))
+
+    /**
+     * Convert checkstyle errors to `Danger-Kotlin` warnings / errors
+     *
+     * @param paths Checkstyle formatted XML file paths
+     * @param inlineMode If true, it makes comments as inline in Pull requests.
+     */
     @Suppress("unused")
     fun report(vararg paths: Path, inlineMode: Boolean = true) {
         paths.forEach { report(it, inlineMode) }
     }
 
+    /**
+     * Convert checkstyle errors to `Danger-Kotlin` warnings / errors
+     *
+     * @param paths Checkstyle formatted XML file paths
+     * @param inlineMode If true, it makes comments as inline in Pull requests.
+     */
     @Suppress("unused")
     fun report(paths: List<Path>, inlineMode: Boolean = true) {
         report(paths = paths.toTypedArray(), inlineMode = inlineMode)
@@ -25,7 +49,7 @@ object CheckstyleFormat : DangerPlugin() {
         }
 
         val checkstyle = parse(path)
-        val errors = CheckstyleError.from(checkstyle)
+        val errors = CheckstyleError.from(basePath, checkstyle)
         sendComment(errors, inlineMode)
     }
 

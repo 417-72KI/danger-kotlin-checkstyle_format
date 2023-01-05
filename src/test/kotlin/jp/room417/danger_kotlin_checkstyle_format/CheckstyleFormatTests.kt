@@ -3,6 +3,7 @@ package jp.room417.danger_kotlin_checkstyle_format
 import org.junit.Test
 import systems.danger.kotlin.sdk.DangerContext
 import java.io.File
+import kotlin.io.path.Path
 import kotlin.test.BeforeTest
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
@@ -14,6 +15,7 @@ class CheckstyleFormatTests {
     @BeforeTest
     fun setup() {
         context = MockDangerContext()
+        CheckstyleFormat.basePath = Path(System.getProperty("user.dir"))
         CheckstyleFormat.context = context
     }
 
@@ -92,7 +94,10 @@ class CheckstyleFormatTests {
                     assertEquals(it.source, "indent")
                 }
             }
-            assertTrue(checkstyle.files[2].errors.isEmpty())
+            checkstyle.files[2].let {
+                assertEquals(it.name, "/path/to/C.kt")
+                assertTrue(it.errors.isEmpty())
+            }
         }
         File(ClassLoader.getSystemResource("checkstyle-empty.xml").toURI()).let {
             val checkstyle = CheckstyleFormat.parse(it.toPath())
