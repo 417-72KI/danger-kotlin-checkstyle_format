@@ -27,7 +27,7 @@ object CheckstyleFormat : DangerPlugin() {
      * @param paths Checkstyle formatted XML file paths
      * @param inlineMode If true, it makes comments as inline in Pull requests.
      */
-    @Suppress("unused")
+    @Suppress("unused", "MemberVisibilityCanBePrivate")
     fun report(vararg paths: Path, inlineMode: Boolean = true) {
         paths.forEach { report(it, inlineMode) }
     }
