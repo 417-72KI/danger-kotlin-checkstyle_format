@@ -23,7 +23,7 @@ dependencies {
     testImplementation(TestDependencies.kotlinTestJunit)
 }
 
-configure<org.jlleitschuh.gradle.ktlint.KtlintExtension> {
+ktlint {
     arrayOf(
         "import-ordering",
         "no-wildcard-imports"
@@ -63,6 +63,15 @@ tasks.register("releaseTag") {
             if (it != 0) throw GradleException("invalid return code on `gh release create`: $it")
         }
     }
+}
+
+tasks.register("installPlugin") {
+    dependsOn("publishToMavenLocal")
+    installPluginFromMavenLocal()
+}
+
+tasks.named("build") {
+    dependsOn("installPlugin")
 }
 
 // Publish
