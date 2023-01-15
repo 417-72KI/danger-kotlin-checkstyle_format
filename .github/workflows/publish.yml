@@ -6,12 +6,14 @@ on:
     tags:
       - v*
     paths-ignore:
-      - .github/workflows/pr.yml
+      - .editorconfig
       - .gitattributes
+      - .github/workflows/pr.yml
       - .gitignore
       - Dangerfile.df.kts
-      - README.md
       - LICENSE
+      - Makefile
+      - README.md
 concurrency:
   group: ${{ github.ref }}-${{ github.workflow }}
   cancel-in-progress: true
