@@ -53,12 +53,11 @@ jobs:
           retention-days: 7
       - name: Run Danger-Kotlin
         if: cancelled() != true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          JOB_STATUS: ${{ job.status }}
-        uses: docker://ghcr.io/danger/danger-kotlin:1.2.0
+        uses: addnab/docker-run-action@v3
         with:
-          args: |
-            -v /usr/local/lib/danger/libs/danger-kotlin-checkstyle_format.jar:/usr/local/lib/danger/libs/danger-kotlin-checkstyle_format.jar
-            --failOnErrors
-            --no-publish-check
+          image: ghcr.io/danger/danger-kotlin:1.2.0
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          options: -v /usr/local/lib/danger/libs/danger-kotlin-checkstyle_format.jar:/usr/local/lib/danger/libs/danger-kotlin-checkstyle_format.jar -v ${{ github.workspace }}:/work -e JOB_STATUS=${{ job.status }} -w /work
+          run: --failOnErrors --no-publish-check
