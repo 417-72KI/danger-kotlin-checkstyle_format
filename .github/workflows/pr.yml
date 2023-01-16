@@ -60,4 +60,4 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
           options: -v /usr/local/lib/danger/libs/danger-kotlin-checkstyle_format.jar:/usr/local/lib/danger/libs/danger-kotlin-checkstyle_format.jar -v ${{ github.workspace }}:/work -e JOB_STATUS=${{ job.status }} -w /work
-          run: --failOnErrors --no-publish-check
+          run: danger-kotlin ci --failOnErrors --no-publish-check
