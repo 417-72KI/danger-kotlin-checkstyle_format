@@ -66,8 +66,7 @@ tasks.register("releaseTag") {
 }
 
 tasks.register("installPlugin") {
-    dependsOn("publishToMavenLocal")
-    installPluginFromMavenLocal()
+    installPluginFromMavenLocal(rootProject)
 }
 
 tasks.named("build") {
@@ -153,13 +152,12 @@ val properties = project.localProperties ?: Properties().apply {
 }
 
 signing {
-    val keyId = properties.getProperty("signing.keyId")
-    val key = properties.getProperty("signing.key")
-    val password = properties.getProperty("signing.password")
-    if (keyId != null && key != null && password != null) {
-        useInMemoryPgpKeys(keyId, key, password)
-        sign(publishing.publications)
-    }
+    useInMemoryPgpKeys(
+        properties.getProperty("signing.keyId"),
+        properties.getProperty("signing.key"),
+        properties.getProperty("signing.password")
+    )
+    sign(publishing.publications)
 }
 
 nexusPublishing {
