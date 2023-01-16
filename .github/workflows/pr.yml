@@ -5,6 +5,7 @@ on:
     paths-ignore:
       - .editorconfig
       - .gitattributes
+      - .github/renovate.json
       - .github/workflows/publish.yml
       - .gitignore
       - LICENSE

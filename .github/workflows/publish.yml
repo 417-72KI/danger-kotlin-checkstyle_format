@@ -8,6 +8,7 @@ on:
     paths-ignore:
       - .editorconfig
       - .gitattributes
+      - .github/renovate.json
       - .github/workflows/pr.yml
       - .gitignore
       - Dangerfile.df.kts
