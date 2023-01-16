@@ -33,7 +33,8 @@ danger(args) {
     }
     path.forEachDirectoryEntryRecursive(glob = "**/build/reports/ktlint/**/ktlint*.xml") {
         CheckstyleFormat.basePath = if (System.getenv("CI") == "true") {
-            Path("/home/runner/work/danger-kotlin-checkstyle_format/danger-kotlin-checkstyle_format")
+            // Path("/home/runner/work/danger-kotlin-checkstyle_format/danger-kotlin-checkstyle_format") // on GitHub Action
+            Path("/__w/danger-kotlin-checkstyle_format/danger-kotlin-checkstyle_format") // `container` in GitHub Action
         } else {
             Path(System.getenv("WORKING_DIR") ?: System.getProperty("user.dir"))
         }
