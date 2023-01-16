@@ -13,4 +13,4 @@ format:
 	./gradlew ktlintFormat
 
 test:
-	./gradlew --continue ktlintCheck test --stacktrace
+	./gradlew --continue clean ktlintCheck test --stacktrace
