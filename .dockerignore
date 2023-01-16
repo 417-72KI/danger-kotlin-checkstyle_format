@@ -1,0 +1,13 @@
+.github
+.gradle
+.idea
+build
+.editorconfig
+.gitattributes
+.gitignore
+danger_out.json
+LICENSE
+local.properties
+Makefile
+pom.properties
+README.md
