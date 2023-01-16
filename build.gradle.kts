@@ -153,12 +153,13 @@ val properties = project.localProperties ?: Properties().apply {
 }
 
 signing {
-    useInMemoryPgpKeys(
-        properties.getProperty("signing.keyId"),
-        properties.getProperty("signing.key"),
-        properties.getProperty("signing.password")
-    )
-    sign(publishing.publications)
+    val keyId = properties.getProperty("signing.keyId")
+    val key = properties.getProperty("signing.key")
+    val password = properties.getProperty("signing.password")
+    if (keyId != null && key != null && password != null) {
+        useInMemoryPgpKeys(keyId, key, password)
+        sign(publishing.publications)
+    }
 }
 
 nexusPublishing {
