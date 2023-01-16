@@ -19,6 +19,11 @@ env:
 jobs:
   verify:
     runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/danger/danger-kotlin:1.2.0
+      credentials:
+        username: ${{ github.repository_owner }}
+        password: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v3
       - name: set up JDK 11
@@ -42,7 +47,7 @@ jobs:
       - name: lint and test
         if: success()
         run: ./gradlew --continue ktlintCheck test --stacktrace
-      - name: 'Upload lint and test reports'
+      - name: Upload lint and test reports
         uses: actions/upload-artifact@v3
         if: cancelled() != true
         with:
@@ -53,11 +58,5 @@ jobs:
           retention-days: 7
       - name: Run Danger-Kotlin
         if: cancelled() != true
-        uses: addnab/docker-run-action@v3
-        with:
-          image: ghcr.io/danger/danger-kotlin:1.2.0
-          registry: ghcr.io
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-          options: -v /usr/local/lib/danger/libs/danger-kotlin-checkstyle_format.jar:/usr/local/lib/danger/libs/danger-kotlin-checkstyle_format.jar -v ${{ github.workspace }}:/work -e JOB_STATUS=${{ job.status }} -e "GITHUB_USER"="$GITHUB_USER" -e "GITHUB_TOKEN"="$GITHUB_TOKEN" -e "JAVA_HOME"="$JAVA_HOME" -e "JAVA_HOME_11_X64"="$JAVA_HOME_11_X64" -e "MSYS"="$MSYS" -e "INPUT_IMAGE"="$INPUT_IMAGE" -e "INPUT_REGISTRY"="$INPUT_REGISTRY" -e "INPUT_USERNAME"="$INPUT_USERNAME" -e "INPUT_PASSWORD"="$INPUT_PASSWORD" -e "INPUT_OPTIONS"="$INPUT_OPTIONS" -e "INPUT_RUN"="$INPUT_RUN" -e "INPUT_SHELL"="$INPUT_SHELL" -e "INPUT_DOCKER_NETWORK"="$INPUT_DOCKER_NETWORK" -e "HOME"="$HOME" -e "GITHUB_JOB"="$GITHUB_JOB" -e "GITHUB_REF"="$GITHUB_REF" -e "GITHUB_SHA"="$GITHUB_SHA" -e "GITHUB_REPOSITORY"="$GITHUB_REPOSITORY" -e "GITHUB_REPOSITORY_OWNER"="$GITHUB_REPOSITORY_OWNER" -e "GITHUB_REPOSITORY_OWNER_ID"="$GITHUB_REPOSITORY_OWNER_ID" -e "GITHUB_RUN_ID"="$GITHUB_RUN_ID" -e "GITHUB_RUN_NUMBER"="$GITHUB_RUN_NUMBER" -e "GITHUB_RETENTION_DAYS"="$GITHUB_RETENTION_DAYS" -e "GITHUB_RUN_ATTEMPT"="$GITHUB_RUN_ATTEMPT" -e "GITHUB_REPOSITORY_ID"="$GITHUB_REPOSITORY_ID" -e "GITHUB_ACTOR_ID"="$GITHUB_ACTOR_ID" -e "GITHUB_ACTOR"="$GITHUB_ACTOR" -e "GITHUB_TRIGGERING_ACTOR"="$GITHUB_TRIGGERING_ACTOR" -e "GITHUB_WORKFLOW"="$GITHUB_WORKFLOW" -e "GITHUB_HEAD_REF"="$GITHUB_HEAD_REF" -e "GITHUB_BASE_REF"="$GITHUB_BASE_REF" -e "GITHUB_EVENT_NAME"="$GITHUB_EVENT_NAME" -e "GITHUB_SERVER_URL"="$GITHUB_SERVER_URL" -e "GITHUB_API_URL"="$GITHUB_API_URL" -e "GITHUB_GRAPHQL_URL"="$GITHUB_GRAPHQL_URL" -e "GITHUB_REF_NAME"="$GITHUB_REF_NAME" -e "GITHUB_REF_PROTECTED"="$GITHUB_REF_PROTECTED" -e "GITHUB_REF_TYPE"="$GITHUB_REF_TYPE" -e "GITHUB_WORKFLOW_REF"="$GITHUB_WORKFLOW_REF" -e "GITHUB_WORKFLOW_SHA"="$GITHUB_WORKFLOW_SHA" -e "GITHUB_WORKSPACE"="$GITHUB_WORKSPACE" -e "GITHUB_ACTION"="$GITHUB_ACTION" -e "GITHUB_EVENT_PATH"="$GITHUB_EVENT_PATH" -e "GITHUB_ACTION_REPOSITORY"="$GITHUB_ACTION_REPOSITORY" -e "GITHUB_ACTION_REF"="$GITHUB_ACTION_REF" -e "GITHUB_PATH"="$GITHUB_PATH" -e "GITHUB_ENV"="$GITHUB_ENV" -e "GITHUB_STEP_SUMMARY"="$GITHUB_STEP_SUMMARY" -e "GITHUB_STATE"="$GITHUB_STATE" -e "GITHUB_OUTPUT"="$GITHUB_OUTPUT" -e "RUNNER_OS"="$RUNNER_OS" -e "RUNNER_ARCH"="$RUNNER_ARCH" -e "RUNNER_NAME"="$RUNNER_NAME" -e "RUNNER_TOOL_CACHE"="$RUNNER_TOOL_CACHE" -e "RUNNER_TEMP"="$RUNNER_TEMP" -e "RUNNER_WORKSPACE"="$RUNNER_WORKSPACE" -e "ACTIONS_RUNTIME_URL"="$ACTIONS_RUNTIME_URL" -e "ACTIONS_RUNTIME_TOKEN"="$ACTIONS_RUNTIME_TOKEN" -e "ACTIONS_CACHE_URL"="$ACTIONS_CACHE_URL" -e "GITHUB_ACTIONS"="$GITHUB_ACTIONS" -e "CI"="$CI" -w /work
-          run: danger-kotlin ci --failOnErrors --no-publish-check
+        run: |
+          danger-kotlin ci --failOnErrors --no-publish-check
