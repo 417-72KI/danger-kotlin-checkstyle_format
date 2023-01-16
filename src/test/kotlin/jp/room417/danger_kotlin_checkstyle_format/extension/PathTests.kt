@@ -43,13 +43,13 @@ class PathTests {
             "foo/build",
             "bar/build",
             "baz/qux/build"
-        ).map { "${it}/reports/ktlint" }
+        ).map { "$it/reports/ktlint" }
             .flatMap { path ->
                 listOf(
                     "ktlintKotlinScriptCheck",
                     "ktlintMainSourceSetCheck",
                     "ktlintTestSourceSetCheck"
-                ).map { "${path}/${it}/${it}.xml" }
+                ).map { "$path/$it/$it.xml" }
             }
             .also {
                 it.map(tmpPath::resolve)
