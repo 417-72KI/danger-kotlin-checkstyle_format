@@ -21,6 +21,8 @@ fun installPluginFromMavenLocal() {
 
     val dangerLibDir = File("/usr/local/lib/danger/libs")
     jarFile?.let {
-        it.copyTo(dangerLibDir.resolve("$artifactId.jar"))
+        val dest = dangerLibDir.resolve("$artifactId.jar")
+        it.copyTo(dest, true)
+        println("Plugin installed into $dest")
     }
 }
