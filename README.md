@@ -23,15 +23,9 @@ to the top of your `Dangerfile.df.kts`
 register plugin CheckstyleFormat
 
 danger(args) {
-    // In this sample, you should run `./gradlew KtlintCheck` before executing `Danger-Kotlin`.
-    FileSystems.getDefault()
-        .getPathMatcher("glob:**/build/reports/ktlint/**/ktlint*.xml")
-        .let {
-            Files.walk(Path(System.getProperty("user.dir")))
-                .filter(it::matches)
-                .forEach(CheckstyleFormat::report)
-        }
+    // You should run `./gradlew KtlintCheck` with `checkstyle` reporter before executing `Danger-Kotlin`.
+    CheckstyleFormat.reportKtlint()
 }
 ```
 
-See [Dangerfile.df.kts](https://github.com/417-72KI/danger-kotlin-checkstyle_format/blob/main/Dangerfile.df.kts) for specific usage.
+See [Dangerfile.df.kts](https://github.com/417-72KI/danger-kotlin-checkstyle_format/blob/main/Dangerfile.df.kts) for more specific usage.
