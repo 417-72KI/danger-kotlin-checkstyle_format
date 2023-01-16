@@ -57,7 +57,13 @@ tasks.register("releaseTag") {
         if (versionList.contains(version))
             throw GradleException("`$version` already exists.")
 
-        println("Create release `$version`")
+        while (true) {
+            println("[Confirm] create release for `$version`? [y/N] >")
+            when (readLine()) {
+                "y", "Y" -> break
+                "n", "N" -> throw GradleException("Abort.")
+            }
+        }
 
         "gh release create $version --target main --generate-notes".runCommand().exitCode.let {
             if (it != 0) throw GradleException("invalid return code on `gh release create`: $it")
