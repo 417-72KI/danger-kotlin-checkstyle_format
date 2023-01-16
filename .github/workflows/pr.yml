@@ -59,4 +59,5 @@ jobs:
       - name: Run Danger-Kotlin
         if: cancelled() != true
         run: |
+          ./gradlew --continue installPluginFromLocal --info --stacktrace
           danger-kotlin ci --failOnErrors --no-publish-check

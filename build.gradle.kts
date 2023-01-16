@@ -65,12 +65,8 @@ tasks.register("releaseTag") {
     }
 }
 
-tasks.register("installPlugin") {
-    installPluginFromMavenLocal(rootProject)
-}
-
-tasks.named("build") {
-    dependsOn("installPlugin")
+tasks.register("installPluginFromLocal") {
+    installPluginFromLocal(rootProject)
 }
 
 // Publish
