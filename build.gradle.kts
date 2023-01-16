@@ -66,7 +66,10 @@ tasks.register("releaseTag") {
 }
 
 tasks.register("installPluginFromLocal") {
-    installPluginFromLocal(rootProject)
+    dependsOn("build")
+    doLast {
+        installPluginFromLocal(rootProject)
+    }
 }
 
 // Publish
