@@ -58,4 +58,7 @@ jobs:
           JOB_STATUS: ${{ job.status }}
         uses: docker://ghcr.io/danger/danger-kotlin:1.2.0
         with:
-          args: --failOnErrors --no-publish-check
+          args: |
+            -v /usr/local/lib/danger/libs/danger-kotlin-checkstyle_format.jar:/usr/local/lib/danger/libs/danger-kotlin-checkstyle_format.jar
+            --failOnErrors
+            --no-publish-check
