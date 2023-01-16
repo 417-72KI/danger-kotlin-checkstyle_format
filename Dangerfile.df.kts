@@ -33,10 +33,13 @@ danger(args) {
         }
     }
     CheckstyleFormat.basePath = if (System.getenv("CI") == "true") {
-        // Path("/home/runner/work/danger-kotlin-checkstyle_format/danger-kotlin-checkstyle_format") // on GitHub Action
-        Path("/__w/danger-kotlin-checkstyle_format/danger-kotlin-checkstyle_format") // `container` in GitHub Action
+        // Path("/home/runner/work/danger-kotlin-checkstyle_format/danger-kotlin-checkstyle_format") // on GitHub Actions directly
+        Path("/__w/danger-kotlin-checkstyle_format/danger-kotlin-checkstyle_format") // uses `container` in GitHub Actions
     } else {
-        Path(System.getenv("WORKING_DIR") ?: System.getProperty("user.dir"))
+        (
+            System.getenv("WORKING_DIR") // in local Docker image
+                ?: System.getProperty("user.dir") // run `danger-kotlin` directly
+            ).let { Path(it) }
     }
 
     CheckstyleFormat.reportKtlint()
