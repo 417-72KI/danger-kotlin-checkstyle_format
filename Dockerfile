@@ -1,4 +1,4 @@
-FROM ghcr.io/danger/danger-kotlin:1.2.0
+FROM ghcr.io/danger/danger-kotlin:1.3.1
 
 WORKDIR /work
 
